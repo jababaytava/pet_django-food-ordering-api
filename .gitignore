@@ -1,0 +1,57 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django SQLite DB (???? ?)
+*.sqlite3
+*.db
+
+# Caches
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.migrations/
+*.cover
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environments
+.env
+.env.*
+.venv/
+venv/
+ENV/
+env/
+
+# PyCharm
+.idea/
+
+# VSCode
+.vscode/
+
+# macOS
+.DS_Store
+
+# Docker
+*.pid
+*.bak
+*.swp
+docker-compose.override.yml
+
+# Compiled files
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+
+# Tests and coverage
+test-results/
+.tox/
+.nox/
+.cache/
