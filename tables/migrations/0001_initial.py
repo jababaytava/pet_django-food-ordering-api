@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="Dish",
+            name="Table",
             fields=[
                 (
                     "id",
@@ -22,11 +22,7 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("name", models.CharField(max_length=100)),
-                ("description", models.TextField(blank=True)),
-                ("price", models.DecimalField(decimal_places=2, max_digits=7)),
-                ("is_available", models.BooleanField(default=True)),
-                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("number", models.PositiveIntegerField(unique=True)),
             ],
         ),
     ]

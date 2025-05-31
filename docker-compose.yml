@@ -30,7 +30,18 @@ services:
     image: rabbitmq:3-management
     ports:
       - "5672:5672"
-      - "15672:15672"  # RabbitMQ UI
+      - "15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: pass
+
+  bot:
+    build:
+      context: .
+    command: python bot.py
+    env_file:
+      - .env
+    depends_on:
+      - web
+    volumes:
+      - .:/code

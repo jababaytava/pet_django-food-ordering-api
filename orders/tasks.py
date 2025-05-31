@@ -1,21 +1,30 @@
 from celery import shared_task
-import logging
 from orders.models import Order
-
-logger = logging.getLogger("orders")
+from utils.telegram import send_telegram_message
 
 
 @shared_task
 def confirm_order_task(order_id):
     try:
-        order = Order.objects.get(id=order_id)
-        logger.info(
-            f"Task received for Order #{order_id}. Current status: {order.status}"
+        order = (
+            Order.objects.select_related("user", "table")
+            .prefetch_related("items__dish")
+            .get(pk=order_id)
         )
-        order.status = "confirmed"
-        order.save()
-        logger.info(f"Order #{order_id} status changed to 'confirmed'.")
     except Order.DoesNotExist:
-        logger.warning(f"Order #{order_id} not found in confirm_order_task.")
-    except Exception as e:
-        logger.error(f"Error confirming Order #{order_id}: {e}")
+        return
+
+    message_lines = [
+        f"New order: {order.id}",
+        f"Table: {order.table.number}",
+        f"Client : {order.user.email}",
+        "",
+        "Dish:",
+    ]
+
+    for item in order.items.all():
+        message_lines.append(f"{item.dish.name} quantity {item.quantity}")
+
+    message = "\n".join(message_lines)
+
+    send_telegram_message(message, order_id=order.id)
